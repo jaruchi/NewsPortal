@@ -1,0 +1,10 @@
+<mat-card>
+
+    <button (click)="loginWithGoogle()" mat-raised-button class="google-login-btn">
+        Google
+    </button>
+    <div *ngIf="authState | async as socialUser">
+        <p>Hello, {{socialUser.name}}!</p>
+        <p>Your email: {{socialUser.email}}</p>
+    </div>
+</mat-card>

@@ -1,0 +1,18 @@
+main {
+    display: flex;
+    justify-content: center;
+  }
+  
+  main section {
+    max-width: 600px;
+  }
+  
+  .form-container mat-card-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
