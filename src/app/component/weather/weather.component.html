@@ -1,0 +1,12 @@
+
+    <mat-card>
+        <h2>Weather</h2>
+        <div class='divider' matLine></div>
+        <div class="weather" *ngIf="weather">
+            <p> {{weather.name}}</p>
+            <p>Currently {{weather.weather[0].description}}.</p>
+            <p>High {{weather.main.temp_max}} F</p>
+            <p>Low {{weather.main.temp_min}} F</p>
+        </div>
+
+    </mat-card>
