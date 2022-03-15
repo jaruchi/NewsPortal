@@ -1,0 +1,32 @@
+<mat-toolbar color="primary" class="position-fixed">
+    <button mat-icon-button class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+    </button>
+    <span>News Feed</span>
+    <span class="example-spacer"></span>
+
+    <app-search></app-search>
+    <span class="example-spacer"></span>
+    <div class="user" *ngIf="authState | async as socialUser">
+        <p>Hello, {{socialUser.name}}!</p>
+        <img src="{{socialUser.photoUrl}}"/>
+    </div>
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+        <mat-icon>more_vert</mat-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item routerLink="/login">
+            <mat-icon>face</mat-icon>
+            <span> login
+
+            </span>
+        </button>
+        <button mat-menu-item>
+            <mat-icon>logout</mat-icon>
+            <span>
+                Logout
+            </span>
+        </button>
+    </mat-menu>
+</mat-toolbar>
+<router-outlet></router-outlet>
