@@ -1,0 +1,19 @@
+<mat-form-field appearance="fill">
+    <mat-label>Country</mat-label>
+    <mat-select (selectionChange)="setCountry($event)" [(value)]="curCountry">
+        <mat-option *ngFor="let sourceCountry of countries$|async" [value]="sourceCountry">
+            {{sourceCountry}}
+        </mat-option>
+    </mat-select>
+</mat-form-field>
+
+
+<mat-selection-list multiple="false" (selectionChange)="setSource($event)" multiple="false">
+    <mat-list-option *ngFor="let source of sources$|async" [value]="source.id">
+        <mat-icon matListIcon>
+            source
+        </mat-icon>
+        <div [title]="source.description" matLine>{{source.name}}</div>
+
+    </mat-list-option>
+</mat-selection-list>
