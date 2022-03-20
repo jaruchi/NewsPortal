@@ -1,7 +1,6 @@
 const express = require("express");
 const cors = require("cors");
 
-const db = require("./app/models");
 const news = require('./app/routes/news');
 const user = require('./app/routes/user');
 const pref = require('./app/routes/pref');
@@ -25,13 +24,14 @@ app.get("/api", (req, res) => {
   res.json({ message: "Welcome to news lake api." });
 });
 
+
 app.use('/api/news', news);
 app.use('/api/user', user);
 app.use('/api/fav', pref);
-
 // db.dropAndResync();
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
+
