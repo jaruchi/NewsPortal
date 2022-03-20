@@ -3,7 +3,29 @@
 //     margin-bottom: 5%;
 // }
 
-.components{
-    display:flex;
-    justify-content: space-evenly;
+.components {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+}
+app-sidenav {
+  overflow: hidden;
+  height: calc(100vh - 8rem);
+
+  padding: 0 2px;
+}
+app-main {
+  overflow: auto;
+  height: calc(100vh - 8rem);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+app-weather {
+  padding: 0 1rem;
 }

@@ -7,6 +7,7 @@ import {
   TopHeadlinesResponse,
 } from '../model/model';
 import { Observable, Subject } from 'rxjs';
+import { cacheCopy } from './cache';
 
 const APIKey: string = 'f440a86686de4385bcc6adfd9f87c466';
 const HOST = `https://newsapi.org`;
@@ -16,7 +17,8 @@ const API = {
   SOURCES: '/sources',
 };
 
-const cache: { [key: string]: TopHeadlinesResponse | SourcesResponse } = {};
+//const cache: { [key: string]: TopHeadlinesResponse | SourcesResponse } = {};
+const cache: { [key: string]: any } = {}; //cacheCopy;
 
 @Injectable({
   providedIn: 'root',
@@ -69,7 +71,7 @@ export class NewsService {
     }&apiKey=${APIKey}`;
 
     if (cache[url]) {
-      this._news.next((cache[url] as TopHeadlinesResponse).articles);
+      this._news.next(cache[url]?.articles || []);
       return;
     }
     this.http.get<TopHeadlinesResponse>(url).subscribe((news) => {
@@ -79,6 +81,20 @@ export class NewsService {
   }
 
   private setSources(country: string = 'us'): void {
+    const url = `${HOST}${PATH}${API.SOURCES}?language=en&country=${country}&apiKey=${APIKey}`;
+
+    if (cache[url]) {
+      this.updateSources(cache[url]?.sources || [], country);
+      return;
+    }
+
+    this.http.get<SourcesResponse>(url).subscribe((resp) => {
+      cache[url] = resp;
+      this.updateSources(resp.sources, country);
+    });
+  }
+
+  private updateSources(newSouces: Source[], country: string) {
     const all: Source = {
       id: '_all',
       name: 'All',
@@ -86,23 +102,24 @@ export class NewsService {
         'You will see news from all the different sources based on priorities',
       country: country,
     };
-    this.http
-      .get<SourcesResponse>(
-        `${HOST}${PATH}${API.SOURCES}?language=en&country=${country}&apiKey=${APIKey}`
-      )
-      .subscribe((resp) => this._sources.next([all, ...resp.sources]));
+    this._sources.next([all, ...newSouces]);
   }
 
+  private updateCountries(sources: Source[]): void {
+    const countriesFromSources = (sources || []).map((s) => s.country);
+    const countries = new Set<string>(countriesFromSources);
+    this._countries.next([...countries]);
+  }
   private setCountries(): void {
-    this.http
-      .get<SourcesResponse>(
-        `${HOST}${PATH}${API.SOURCES}?language=en&apiKey=${APIKey}`
-      )
-      .subscribe((resp) => {
-        const countriesFromSources = (resp.sources || []).map((s) => s.country);
-        const countries = new Set<string>(countriesFromSources);
-        this._countries.next([...countries]);
-      });
+    const url = `${HOST}${PATH}${API.SOURCES}?language=en&apiKey=${APIKey}`;
+    if (cache[url]) {
+      this.updateCountries(cache[url]?.sources || []);
+      return;
+    }
+    this.http.get<SourcesResponse>(url).subscribe((resp) => {
+      cache[url] = resp;
+      this.updateCountries(resp.sources);
+    });
   }
 
   getUserSources(): Source[] {

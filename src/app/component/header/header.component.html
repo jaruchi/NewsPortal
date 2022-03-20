@@ -5,28 +5,27 @@
     <span>News Feed</span>
     <span class="example-spacer"></span>
 
-    <app-search></app-search>
+    <!-- <app-search></app-search> -->
     <span class="example-spacer"></span>
     <div class="user" *ngIf="authState | async as socialUser">
-        <p>Hello, {{socialUser.name}}!</p>
-        <img src="{{socialUser.photoUrl}}"/>
+        <p #userName>Hello, {{socialUser.name}}!</p>
+        <img src="{{socialUser.photoUrl}}" />
+        <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="logOut()">
+                <mat-icon>logout</mat-icon>
+                <span>
+                    Logout
+                </span>
+            </button>
+        </mat-menu>
     </div>
-    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
-        <mat-icon>more_vert</mat-icon>
+    <button *ngIf="!loggedin" (click)="loginWithGoogle()" mat-raised-button class="google-login-btn">
+        Sign with Google
     </button>
-    <mat-menu #menu="matMenu">
-        <button mat-menu-item routerLink="/login">
-            <mat-icon>face</mat-icon>
-            <span> login
 
-            </span>
-        </button>
-        <button mat-menu-item>
-            <mat-icon>logout</mat-icon>
-            <span>
-                Logout
-            </span>
-        </button>
-    </mat-menu>
+
 </mat-toolbar>
 <router-outlet></router-outlet>

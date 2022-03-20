@@ -8,18 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WeatherComponent implements OnInit {
   weather: any;
-  location: any = 'Aurora';
+  
 
   constructor(private http: HttpClient) {}
 
   ngOnInit(): void {
-    this.findWeather(this.location);
+    //debugger
+    navigator.geolocation.getCurrentPosition(position => {
+      this.findWeather(position.coords.latitude,position.coords.longitude);
+      
+    });
+    
   }
 
-   findWeather(location: any): any {
+   findWeather(latitude:number,longitude:number): any {
     this.http
       .get(
-        `http://api.openweathermap.org/data/2.5/weather?q=${location}&appid=052f26926ae9784c2d677ca7bc5dec98&&units=imperial`
+        `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=052f26926ae9784c2d677ca7bc5dec98`
       )
       .subscribe((response) => (this.weather = response));
   }
