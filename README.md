@@ -1,14 +1,17 @@
 # News App
-News feed app showcasing the latest stories and news.
+News feed app showcasing the latest stories and news using API 
+"https://newsapi.org"
 
 This portal is a single page application. It's backend is built using express server and node js.
-- [Backend](https://github.com/jaruchi/NewsBackend)
+
+Also used weather API
+"https://openweathermap.org/current"
 
 ### Screens
 ![Main Screen](/docs/Mainscreen.png)
 
 ### Deployed on heroku
-[News App](https://cu-mi.herokuapp.com/)
+[News App](https://news-lake.herokuapp.com/)
 
 ## How to run
 * npm install
@@ -18,7 +21,8 @@ This portal is a single page application. It's backend is built using express se
 
 ## How to develop
 * npm install
-* ng serve
+* npm start(in shell 1)
+* ng serve(in shell 2)
 * http://localhost:4200
 
 ### Technologies Used
